@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MaterialApp(home: MyApp()));
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -56,19 +58,32 @@ class MyApp extends StatelessWidget {
           softWrap: true,
         ));
 
-    return MaterialApp(
-      title: 'Layout',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Layout'),
-        ),
-        body: Column(
-          children: [
-            titleSection,
-            buttonSection,
-            textSection,
-          ],
-        ),
+    Widget imageView = Container(
+        child: Hero(
+      tag: 'photo',
+      child: Image.asset('images/lake.jpg',
+          width: 600, height: 240, fit: BoxFit.cover),
+    ));
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Layout'),
+      ),
+      body: ListView(
+        children: [
+          imageView,
+          titleSection,
+          buttonSection,
+          textSection,
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          print('Click');
+          Navigator.of(context).push(_createRoute());
+        },
+        tooltip: 'Next page',
+        child: Icon(Icons.image),
       ),
     );
   }
@@ -88,6 +103,66 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+// ---------------------- //
+Route _createRoute() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => Page2(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      var begin = Offset(0.0, 1.0);
+      var end = Offset.zero;
+      var curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
+}
+
+class Page2 extends StatelessWidget {
+  Widget build(BuildContext context) {
+    Widget textSection = Container(
+        padding: const EdgeInsets.all(32),
+        child: Text(
+          'But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. \n \n No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?',
+          softWrap: true,
+        ));
+    BorderRadiusGeometry _borderRadius = BorderRadius.circular(8);
+
+    return Scaffold(
+      body: ListView(children: [
+        Hero(
+            tag: 'photo',
+            child: Container(
+              child: Image.asset('images/lake.jpg',
+                  width: 600, height: 150, fit: BoxFit.cover),
+            )),
+        Container(
+          padding: const EdgeInsets.all(32),
+          child: Text(
+            'Piękne zdjęcie',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        textSection
+      ]),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          print('Click');
+          Navigator.pop(context);
+        },
+        tooltip: 'Back',
+        child: Icon(Icons.arrow_back),
+      ),
     );
   }
 }
