@@ -1,72 +1,93 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
-void main() => runApp(AnimatedContainerApp());
+void main() => runApp(MyApp());
 
-class AnimatedContainerApp extends StatefulWidget {
-  @override
-  _AnimatedContainerAppState createState() => _AnimatedContainerAppState();
-}
-
-class _AnimatedContainerAppState extends State<AnimatedContainerApp> {
-  // Define the various properties with default values. Update these properties
-  // when the user taps a FloatingActionButton.
-  double _width = 120;
-  double _height = 120;
-  Color _color = Colors.blue;
-  BorderRadiusGeometry _borderRadius = BorderRadius.circular(0.5);
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Widget titleSection = Container(
+        padding: const EdgeInsets.all(32),
+        child: Row(children: [
+          Expanded(
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Container(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Text(
+                  '\<Na kodzie/> i w pogodzie',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Text(
+                'Paryż, Chiny',
+                style: TextStyle(
+                  color: Colors.grey[500],
+                ),
+              ),
+            ]),
+          ),
+          Icon(
+            Icons.star,
+            color: Colors.red[500],
+          ),
+          Text('41'),
+        ]));
+    Color color = Theme.of(context).primaryColor;
+
+    Widget buttonSection = Container(
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+        _buildButtonColumn(color, Icons.call, 'CALL'),
+        _buildButtonColumn(color, Icons.near_me, 'ROUTE'),
+        _buildButtonColumn(color, Icons.share, 'SHARE'),
+      ]),
+    );
+
+    Widget textSection = Container(
+        padding: const EdgeInsets.all(32),
+        child: Text(
+          'Lake Oeschinen lies at the foot of the Blüemlisalp in the Bernese '
+          'Alps. Situated 1,578 meters above sea level, it is one of the '
+          'larger Alpine Lakes. A gondola ride from Kandersteg, followed by a '
+          'half-hour walk through pastures and pine forest, leads you to the '
+          'lake, which warms to 20 degrees Celsius in the summer. Activities '
+          'enjoyed here include rowing, and riding the summer toboggan run.',
+          softWrap: true,
+        ));
+
     return MaterialApp(
+      title: 'Layout',
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Randoooom'),
+          title: Text('Layout'),
         ),
-        body: Center(
-          child: AnimatedContainer(
-            // Use the properties stored in the State class.
-            width: _width,
-            height: _height,
-            decoration: BoxDecoration(
-              color: _color,
-              borderRadius: _borderRadius,
-            ),
-            // Define how long the animation should take.
-            duration: Duration(seconds: 1),
-            // Provide an optional curve to make the animation feel smoother.
-            curve: Curves.fastOutSlowIn,
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.cake),
-          // When the user taps the button
-          onPressed: () {
-            // Use setState to rebuild the widget with new values.
-            setState(() {
-              // Create a random number generator.
-              final random = Random();
-
-              // Generate a random width and height.
-              _width = random.nextInt(300).toDouble();
-              _height = random.nextInt(500).toDouble();
-
-              // Generate a random color.
-              _color = Color.fromRGBO(
-                random.nextInt(256),
-                random.nextInt(256),
-                random.nextInt(256),
-                1,
-              );
-
-              // Generate a random border radius.
-              _borderRadius =
-                  BorderRadius.circular(random.nextInt(100).toDouble());
-            });
-          },
+        body: Column(
+          children: [
+            titleSection,
+            buttonSection,
+            textSection,
+          ],
         ),
       ),
+    );
+  }
+
+  Column _buildButtonColumn(Color color, IconData icon, String label) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(icon, color: color),
+        Container(
+          margin: const EdgeInsets.only(top: 8),
+          child: Text(
+            label,
+            style: TextStyle(
+                fontSize: 12, fontWeight: FontWeight.w400, color: color),
+          ),
+        ),
+      ],
     );
   }
 }
