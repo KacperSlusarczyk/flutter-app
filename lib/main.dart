@@ -75,6 +75,10 @@ class MyApp extends StatelessWidget {
           titleSection,
           buttonSection,
           textSection,
+          Container(
+            padding: const EdgeInsets.all(32),
+            child: Image.asset('images/img2.jpg', fit: BoxFit.cover),
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -137,6 +141,7 @@ class Page2 extends StatelessWidget {
     BorderRadiusGeometry _borderRadius = BorderRadius.circular(8);
 
     return Scaffold(
+      backgroundColor: Color.fromRGBO(240, 240, 240, 1),
       body: ListView(children: [
         Hero(
             tag: 'photo',
@@ -153,7 +158,11 @@ class Page2 extends StatelessWidget {
             ),
           ),
         ),
-        textSection
+        textSection,
+        Container(
+          padding: const EdgeInsets.all(32),
+          child: Image.asset('images/img1.jpg', fit: BoxFit.cover),
+        )
       ]),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
