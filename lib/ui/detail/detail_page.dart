@@ -18,7 +18,6 @@ class DetailPage extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             _getBackground(),
-            _getGradient(),
             _getContent(),
             _getToolbar(context)
           ],
@@ -30,20 +29,7 @@ class DetailPage extends StatelessWidget {
   Container _getBackground() {
     return Container(
         child: Image.network(planet.picture, fit: BoxFit.cover, height: 300.0),
-        constraints: BoxConstraints.expand(height: 295.0));
-  }
-
-  Container _getGradient() {
-    return Container(
-      margin: EdgeInsets.only(top: 190.0),
-      height: 110.0,
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: <Color>[Color(0x00736AB7), Color(0xFF736AB7)],
-              stops: [0.0, 0.9],
-              begin: FractionalOffset(0.0, 0.0),
-              end: FractionalOffset(0.0, 1.0))),
-    );
+        constraints: BoxConstraints.expand(height: 235.0));
   }
 
   Container _getContent() {

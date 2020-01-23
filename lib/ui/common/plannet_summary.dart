@@ -32,7 +32,7 @@ class PlanetSummary extends StatelessWidget {
         children: <Widget>[
           Image.asset(image, height: 12.0),
           Container(width: 8.0),
-          Text(planet.gravity, style: Style.smallTextStyle)
+          Text(value, style: Style.smallTextStyle)
         ],
       ));
     }
@@ -56,7 +56,7 @@ class PlanetSummary extends StatelessWidget {
               Expanded(
                   flex: horizontal ? 1 : 0,
                   child: _planetValue(
-                    value: planet.distance,
+                    value: planet.gravity,
                     image: 'assets/img/ic_distance.png',
                   )),
               Container(
@@ -96,9 +96,18 @@ class PlanetSummary extends StatelessWidget {
       onTap: horizontal
           ? () => Navigator.of(context).push(PageRouteBuilder(
                 pageBuilder: (_, __, ___) => DetailPage(planet),
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) =>
-                        FadeTransition(opacity: animation, child: child),
+                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                  var begin = Offset(0.0, 1.0);
+                  var end = Offset.zero;
+                  var curve = Curves.easeOutCubic;
+
+                  var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+                  return SlideTransition(
+                    position: animation.drive(tween),
+                    child: child,
+                  );
+                },
               ))
           : null,
       child: Container(
