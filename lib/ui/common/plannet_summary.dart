@@ -75,7 +75,7 @@ class PlanetSummary extends StatelessWidget {
     );
 
     final planetCard = Container(
-      child: planetCardContent,
+      child: InkWell(child: planetCardContent),
       height: horizontal ? 124.0 : 154.0,
       margin:
           horizontal ? EdgeInsets.only(left: 46.0) : EdgeInsets.only(top: 72.0),
@@ -85,8 +85,8 @@ class PlanetSummary extends StatelessWidget {
           borderRadius: BorderRadius.circular(8.0),
           boxShadow: <BoxShadow>[
             BoxShadow(
-              color: Colors.black12,
-              blurRadius: 10.0,
+              color: Colors.black26,
+              blurRadius: 15.0,
               offset: Offset(0.0, 10.0),
             )
           ]),
@@ -96,12 +96,14 @@ class PlanetSummary extends StatelessWidget {
       onTap: horizontal
           ? () => Navigator.of(context).push(PageRouteBuilder(
                 pageBuilder: (_, __, ___) => DetailPage(planet),
-                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
                   var begin = Offset(0.0, 1.0);
                   var end = Offset.zero;
                   var curve = Curves.easeOutCubic;
 
-                  var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                  var tween = Tween(begin: begin, end: end)
+                      .chain(CurveTween(curve: curve));
 
                   return SlideTransition(
                     position: animation.drive(tween),
